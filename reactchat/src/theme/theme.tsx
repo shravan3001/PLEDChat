@@ -9,12 +9,20 @@ declare module "@mui/material/styles" {
       width: string;
       closedWidth: string;
     };
+    secondaryDraw: {
+      width: string;
+      closedWidth: string;
+    };
   }
   interface ThemeOptions {
     primaryAppBar?: {
       height?: string;
     };
     primaryDraw?: {
+      width?: string;
+      closedWidth?: string;
+    };
+    secondaryDraw?: {
       width?: string;
       closedWidth?: string;
     };
@@ -30,6 +38,10 @@ export const createMuiTheme = () => {
       height: "50px",
     },
     primaryDraw: {
+      width: "240px",
+      closedWidth: "70px",
+    },
+    secondaryDraw: {
       width: "240px",
       closedWidth: "70px",
     },

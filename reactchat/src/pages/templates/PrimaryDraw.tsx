@@ -15,6 +15,7 @@ const PrimaryDraw = () => {
       duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: "hidden",
+    width: theme.primaryDraw.width,
   });
 
   const closeMixin = () => ({
@@ -34,7 +35,8 @@ const PrimaryDraw = () => {
     flexShrink: 0,
     whiteSpace: "nowrap",
     boxSizing: "border-box",
-    sx: open ? openedMixin() : closeMixin(),
+    ...(open && openedMixin()),
+    ...(!open && closeMixin()),
   }));
 
   useEffect(() => {
