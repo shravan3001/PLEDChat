@@ -9,34 +9,30 @@ const PrimaryDraw = () => {
   const theme = useTheme();
   const below600 = useMediaQuery("(max-width:599px)");
 
-  const openedMixin = () => ({
-    transitions: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: "hidden",
-    width: theme.primaryDraw.width,
-  });
-
-  const closeMixin = () => ({
-    transitions: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: "hidden",
-    width: theme.primaryDraw.closedWidth,
-  });
-
-  const Drawer = styled(
-    MuiDrawer,
-    {},
-  )(({ theme, open }) => ({
-    width: theme.primaryDraw.width,
-    flexShrink: 0,
+  const Drawer = styled(MuiDrawer, {
+    shouldForwardProp: (prop) => prop !== "open",
+  })(({ theme, open }) => ({
+    width: open ? theme.primaryDraw.width : theme.primaryDraw.closedWidth,
     whiteSpace: "nowrap",
     boxSizing: "border-box",
-    ...(open && openedMixin()),
-    ...(!open && closeMixin()),
+    ...(open && {
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      overflowX: "hidden",
+      width: theme.primaryDraw.width,
+      overflowY: "auto",
+    }),
+    ...(!open && {
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      overflowX: "hidden",
+      width: theme.primaryDraw.closedWidth,
+      overflow: "auto",
+    }),
   }));
 
   useEffect(() => {
@@ -59,7 +55,7 @@ const PrimaryDraw = () => {
         sx: {
           mt: theme.primaryAppBar.height,
           height: `calc(100vh - ${theme.primaryAppBar.height})`,
-          width: theme.primaryDraw.width,
+          width: open ? theme.primaryDraw.width : theme.primaryDraw.closedWidth,
         },
       }}
     >
