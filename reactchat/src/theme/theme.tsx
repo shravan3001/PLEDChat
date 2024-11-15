@@ -3,12 +3,20 @@ import { colors, createTheme, responsiveFontSizes } from "@mui/material";
 declare module "@mui/material/styles" {
   interface Theme {
     primaryAppBar: {
-      height: number;
+      height: string;
+    };
+    primaryDraw: {
+      width: string;
+      closedWidth: string;
     };
   }
   interface ThemeOptions {
     primaryAppBar?: {
-      height?: number;
+      height?: string;
+    };
+    primaryDraw?: {
+      width?: string;
+      closedWidth?: string;
     };
   }
 }
@@ -19,7 +27,11 @@ export const createMuiTheme = () => {
       fontFamily: ["IBM Plex Sans", "sans-serif"].join(","),
     },
     primaryAppBar: {
-      height: 50,
+      height: "50px",
+    },
+    primaryDraw: {
+      width: "240px",
+      closedWidth: "70px",
     },
     components: {
       MuiAppBar: {

@@ -1,11 +1,43 @@
-import { AppBar, Toolbar, Link, Typography } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Link,
+  Typography,
+  IconButton,
+  Box,
+  Drawer,
+  useMediaQuery,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@mui/material/styles";
+import { useEffect, useState } from "react";
 
 const PrimaryAppBar = () => {
   const theme = useTheme();
+  const [sideMenu, setSideMenu] = useState(false);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
+  useEffect(() => {
+    if (isSmallScreen && sideMenu) {
+      setSideMenu(false);
+    }
+  }, [isSmallScreen, sideMenu]);
+  const toggleDrawer =
+    (open: boolean) => (event: React.MouseEvent | React.KeyboardEvent) => {
+      if (
+        event &&
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+      setSideMenu(open);
+    };
+
   return (
     <AppBar
       sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
         backgroundColor: theme.palette.background.default,
         borderBottom: `1px solid ${theme.palette.divider}`,
       }}
@@ -18,6 +50,30 @@ const PrimaryAppBar = () => {
           color: theme.palette.text.primary,
         }}
       >
+        <Box sx={{ display: { xs: "block", sm: "none" } }}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            sx={{ mr: 2 }}
+            onClick={toggleDrawer(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Box>
+
+        <Drawer
+          anchor="left"
+          open={sideMenu}
+          onClose={toggleDrawer(false)}
+          sx={{ display: { xs: "block", sm: "none" } }}
+        >
+          {Array.from({ length: 100 }).map((_, index) => (
+            <Typography key={index} component="p">
+              {index + 1}
+            </Typography>
+          ))}
+        </Drawer>
         <Link href="/" underline="none" color="inherit">
           <Typography
             variant="h6"
