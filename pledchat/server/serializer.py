@@ -17,7 +17,7 @@ class ServerSerializer(serializers.ModelSerializer):
         model = Server
         exclude = ("member",)
 
-    def get_num_members(self, obj):
+    def get_num_members(self, obj) -> str:
         if hasattr(obj, "num_members"):
             return obj.num_members
         return None
