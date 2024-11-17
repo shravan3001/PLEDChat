@@ -1,5 +1,6 @@
 import os
 
+import PIL
 from django.core.exceptions import ValidationError
 from PIL import Image
 
@@ -20,6 +21,7 @@ def validate_banner_image_size(image, size=100):
 
 def validate_image_file_extension(value):
     ext = os.path.splitext(value.name)[1]
-    valid_extensions = [".jpg", ".jpeg", ".png", ".gif"]
+    valid_extensions = [".jpg", ".jpeg", ".png", ".gif", ".svg"]
     if ext.lower() not in valid_extensions:
         raise ValidationError("Unsupported file extension. Supported extensions are: .jpg, .jpeg, .png, .gif")
+    Image.open(value).resize((70, 70)).save(value)
