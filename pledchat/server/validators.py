@@ -24,4 +24,3 @@ def validate_image_file_extension(value):
     valid_extensions = [".jpg", ".jpeg", ".png", ".gif", ".svg"]
     if ext.lower() not in valid_extensions:
         raise ValidationError("Unsupported file extension. Supported extensions are: .jpg, .jpeg, .png, .gif")
-    Image.open(value).resize((70, 70)).save(value)
