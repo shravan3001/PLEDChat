@@ -12,6 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import ExploreCategories from "../../components/SecondaryDraw/ExploreCategories";
+import AccountButton from "../../components/PrimaryAppBar/AccountButton";
 
 const PrimaryAppBar = () => {
   const theme = useTheme();
@@ -92,6 +93,8 @@ const PrimaryAppBar = () => {
             PledChat
           </Typography>
         </Link>
+        <Box sx={{ flexGrow: 1 }} />
+        <AccountButton />
       </Toolbar>
     </AppBar>
   );

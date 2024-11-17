@@ -32,7 +32,7 @@ const ExloreServers = () => {
   const url = categoryName
     ? `/server/select/?category=${categoryName}`
     : "/server/select/";
-  const { fetchData, dataCRUD, error, isLoading } = useCrud<Server[]>([], url);
+  const { fetchData, dataCRUD, error, isLoading } = useCrud<Server>([], url);
 
   useEffect(() => {
     fetchData();

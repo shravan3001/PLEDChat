@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@emotion/react";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import {
@@ -7,7 +6,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { createMuiTheme } from "./theme/theme";
+import ToggleColorMode from "./components/ToggleColorMode";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,11 +18,10 @@ const router = createBrowserRouter(
 );
 
 const App: React.FC = () => {
-  const theme = createMuiTheme();
   return (
-    <ThemeProvider theme={theme}>
+    <ToggleColorMode>
       <RouterProvider router={router} />
-    </ThemeProvider>
+    </ToggleColorMode>
   );
 };
 export default App;

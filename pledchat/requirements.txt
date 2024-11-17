@@ -1,6 +1,7 @@
 asgiref @ file:///croot/asgiref_1724072470684/work
 attrs==24.2.0
 Django @ file:///croot/django_1724964382619/work
+django-cors-headers==4.6.0
 djangorestframework==3.15.2
 drf-spectacular==0.27.2
 flake8 @ file:///croot/flake8_1726157165993/work
