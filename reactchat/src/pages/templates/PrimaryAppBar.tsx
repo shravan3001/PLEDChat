@@ -11,6 +11,8 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
+import ExploreCategories from "../../components/SecondaryDraw/ExploreCategories";
+import AccountButton from "../../components/PrimaryAppBar/AccountButton";
 
 const PrimaryAppBar = () => {
   const theme = useTheme();
@@ -33,6 +35,17 @@ const PrimaryAppBar = () => {
       }
       setSideMenu(open);
     };
+
+  const list = () => (
+    <Box
+      sx={{ paddingTop: theme.primaryAppBar.height, minWidth: "200px" }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <ExploreCategories />
+    </Box>
+  );
 
   return (
     <AppBar
@@ -68,11 +81,7 @@ const PrimaryAppBar = () => {
           onClose={toggleDrawer(false)}
           sx={{ display: { xs: "block", sm: "none" } }}
         >
-          {Array.from({ length: 100 }).map((_, index) => (
-            <Typography key={index} component="p">
-              {index + 1}
-            </Typography>
-          ))}
+          {list()}
         </Drawer>
         <Link href="/" underline="none" color="inherit">
           <Typography
@@ -84,6 +93,8 @@ const PrimaryAppBar = () => {
             PledChat
           </Typography>
         </Link>
+        <Box sx={{ flexGrow: 1 }} />
+        <AccountButton />
       </Toolbar>
     </AppBar>
   );
