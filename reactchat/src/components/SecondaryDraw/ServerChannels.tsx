@@ -5,34 +5,19 @@ import {
   ListItemButton,
   Box,
   useTheme,
-  ListItemIcon,
   Typography,
 } from "@mui/material";
-import useCrud from "../../hooks/useCrud";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import ListItemAvatar from "@mui/material/Avatar";
-import { MEDIA_URL } from "../../config";
-
-interface Category {
-  id: number;
-  name: string;
-  description: string;
-  icon: string;
+import { Link, useParams } from "react-router-dom";
+import { Server } from "../../@types/server.d";
+interface ServerChannelsProps {
+  data: Server[];
 }
 
-const ServerChannels = () => {
+const ServerChannels = (props: ServerChannelsProps) => {
+  const { data } = props;
   const theme = useTheme();
-  const isDarkMode = theme.palette.mode === "dark";
-  const { fetchData, dataCRUD, error, isLoading } = useCrud<Category>(
-    [],
-    "/server/category/",
-  );
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
+  const { serverId, channelId } = useParams();
+  const server_name = data?.[0]?.name ?? "Server";
   return (
     <>
       <Box
@@ -43,55 +28,51 @@ const ServerChannels = () => {
           px: 2,
           borderBottom: `1px solid ${theme.palette.divider}`,
           position: "sticky",
-          top: 0,
+          top: 1,
           backgroundColor: theme.palette.background.default,
         }}
       >
-        <Typography>Explore</Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {server_name}
+        </Typography>
       </Box>
       <List sx={{ py: 0 }}>
-        {dataCRUD.map((item) => (
-          <ListItem
-            disablePadding
-            key={item.id}
-            sx={{ display: "block" }}
-            dense={true}
-          >
-            <Link
-              to={`/explore/${item.name}`}
-              style={{ textDecoration: "none", color: "inherit" }}
+        {data
+          .flatMap((obj) => obj.channel_server)
+          .map((item) => (
+            <ListItem
+              disablePadding
+              key={item.id}
+              sx={{ display: "block", maxHeight: "40px" }}
+              dense={true}
             >
-              <ListItemButton sx={{ minHeight: 48 }}>
-                <ListItemIcon sx={{ minWidth: 0, justifyContent: "center" }}>
-                  <ListItemAvatar sx={{ minWidth: 0 }}>
-                    <img
-                      alt="server icon"
-                      src={`${MEDIA_URL}${item.icon}`}
-                      style={{
-                        width: "25px",
-                        height: "25px",
-                        display: "block",
-                        margin: "auto",
-                        filter: isDarkMode ? "invert(100%)" : "none", // works well with svg images
-                      }}
-                    />
-                  </ListItemAvatar>
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Typography
-                      variant="body2"
-                      textAlign={"left"}
-                      paddingLeft={1}
-                    >
-                      {item.name}
-                    </Typography>
-                  }
-                ></ListItemText>
-              </ListItemButton>
-            </Link>
-          </ListItem>
-        ))}
+              <Link
+                to={`/server/${serverId}/${item.id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <ListItemButton sx={{ minHeight: 48 }}>
+                  <ListItemText
+                    primary={
+                      <Typography
+                        variant="body2"
+                        textAlign={"left"}
+                        paddingLeft={1}
+                      >
+                        {item.name}
+                      </Typography>
+                    }
+                  ></ListItemText>
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          ))}
       </List>
     </>
   );

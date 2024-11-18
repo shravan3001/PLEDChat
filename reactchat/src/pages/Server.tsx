@@ -19,25 +19,31 @@ const Server = () => {
     `/server/select/?by_serverid=${serverId}`,
   );
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   if (error !== null && error.message === "400") {
     navigate("/");
     return null;
   }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const isChannel = (): Boolean => {
+    if (!channelId) {
+      return true;
+    }
+    return dataCRUD.some((server) =>
+      server.channel_server.some(
+        (channel) => channel.id === parseInt(channelId),
+      ),
+    );
+  };
 
-  // const isChannel = (): Boolean => {
-  //   if (!channelId) {
-  //     return true;
-  //   }
-  //   return dataCRUD.some((server) =>
-  //     server.channel_server.some(
-  //       (channel) => channel.id === parseInt(channelId),
-  //     ),
-  //   );
-  // };
+  useEffect(() => {
+    if (!isChannel()) {
+      navigate(`/server/${serverId}`);
+    }
+  }, [isChannel, channelId]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -47,7 +53,7 @@ const Server = () => {
         <UserServers open={false} data={dataCRUD} />
       </PrimaryDraw>
       <SecondaryDraw>
-        <ServerChannels />
+        <ServerChannels data={dataCRUD} />
       </SecondaryDraw>
       <Main>
         <MessageInterface />
