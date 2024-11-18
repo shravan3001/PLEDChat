@@ -1,31 +1,30 @@
-from channels.generic.websocket import WebsocketConsumer
+from asgiref.sync import async_to_sync
+from channels.generic.websocket import JsonWebsocketConsumer
 
 
-class MyConsumer(WebsocketConsumer):
-    # groups = ["broadcast"]
+class WebChatConsumer(JsonWebsocketConsumer):
+    def __init__(self, *args, **kwargs):
+        self.room_name = "testserver"
+        super().__init__(*args, **kwargs)
 
     def connect(self):
-        # Called on connection.
-        # To accept the connection call:
         self.accept()
-        # Or accept the connection and specify a chosen subprotocol.
-        # A list of subprotocols specified by the connecting client
-        # will be available in self.scope['subprotocols']
-        # self.accept("subprotocol")
-        # To reject the connection, call:
-        # self.close()
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_name,
+            self.channel_name,
+        )
 
-    def receive(self, text_data=None, bytes_data=None):
-        # Called with either text_data or bytes_data for each frame
-        # You can call:
-        self.send(text_data=text_data)
-        # Or, to send a binary frame:
-        # self.send(bytes_data="Hello world!")
-        # Want to force-close the connection? Call:
-        # self.close()
-        # Or add a custom WebSocket error code!
-        # self.close(code=4123)
+    def receive_json(self, content=None):
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_name,
+            {
+                "type": "chat.message",
+                "new_message": content["message"],
+            },
+        )
+
+    def chat_message(self, event):
+        self.send_json(event)
 
     def disconnect(self, close_code):
-        # Called when the socket closes
         pass
