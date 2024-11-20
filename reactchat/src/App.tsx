@@ -9,6 +9,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import ToggleColorMode from "./components/ToggleColorMode";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Home />} />
       <Route path="/server/:serverId/:channelId?" element={<Server />} />
       <Route path="/explore/:categoryName" element={<Explore />} />
+      <Route path="/login" element={<Login />} />
     </Route>,
   ),
 );
