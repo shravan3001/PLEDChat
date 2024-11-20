@@ -21,7 +21,7 @@ const ToggleColorMode: React.FC<ToggleColorModeProps> = ({ children }) => {
   }, [mode]);
 
   useEffect(() => {
-    Cookies.set("colorMode", mode);
+    Cookies.set("colorMode", mode, { samSite: "strict" });
   }, [mode]);
 
   const colorMode = useMemo(() => ({ toggleColorMode }), [toggleColorMode]);
