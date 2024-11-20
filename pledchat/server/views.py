@@ -66,17 +66,18 @@ class ServerListViewSet(viewsets.ViewSet):
             self.query_set = self.query_set.annotate(num_members=Count("member"))
 
         if by_serverid:
-            if by_user and request.user.is_authenticated:
-                user_id = request.user.id
-                self.query_set = self.query_set.filter(member=user_id)
-            else:
-                raise AuthenticationFailed()
+            # if by_user and request.user.is_authenticated:
+            #     user_id = request.user.id
+            #     self.query_set = self.query_set.filter(member=user_id)
+            # else:
+            #     raise AuthenticationFailed()
             try:
                 self.query_set = self.query_set.filter(id=by_serverid)
                 if not self.query_set.exists():
                     raise ValidationError(detail=f"Server with id {by_serverid} not found!")
             except ValueError:
                 raise ValidationError(detail=f"Server with id {by_serverid} not found!")
+            pass
 
         if qty:
             self.query_set = self.query_set[: int(qty)]

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # Internal
     "server",
     "account",
+    "webchat",
 ]
 
 MIDDLEWARE = [
@@ -157,3 +158,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+
+CHANNEL_LAYERS = {
+    "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"},
+}
