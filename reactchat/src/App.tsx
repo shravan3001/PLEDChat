@@ -9,6 +9,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import ToggleColorMode from "./components/ToggleColorMode";
+import { AuthServiceProvider } from "./context/AuthContext";
 import Login from "./pages/Login";
 
 const router = createBrowserRouter(
@@ -24,9 +25,11 @@ const router = createBrowserRouter(
 
 const App: React.FC = () => {
   return (
-    <ToggleColorMode>
-      <RouterProvider router={router} />
-    </ToggleColorMode>
+    <AuthServiceProvider>
+      <ToggleColorMode>
+        <RouterProvider router={router} />
+      </ToggleColorMode>
+    </AuthServiceProvider>
   );
 };
 export default App;
