@@ -13,7 +13,7 @@ const Login = () => {
       if (res) {
         console.log(res);
       } else {
-        navigate("/");
+        navigate("/testlogin");
       }
     },
   });

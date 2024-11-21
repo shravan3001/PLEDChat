@@ -1,7 +1,7 @@
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Server from "./pages/Server";
-
+import TestLogin from "./pages/TestLogin";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -11,6 +11,7 @@ import {
 import ToggleColorMode from "./components/ToggleColorMode";
 import { AuthServiceProvider } from "./context/AuthContext";
 import Login from "./pages/Login";
+import ProtectedRoute from "./services/ProtectedRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,14 @@ const router = createBrowserRouter(
       <Route path="/server/:serverId/:channelId?" element={<Server />} />
       <Route path="/explore/:categoryName" element={<Explore />} />
       <Route path="/login" element={<Login />} />
+      <Route
+        path="/testlogin"
+        element={
+          <ProtectedRoute>
+            <TestLogin />
+          </ProtectedRoute>
+        }
+      />
     </Route>,
   ),
 );
