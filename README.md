@@ -15,6 +15,8 @@ Code along for ["React, Typescript, Django, Channels and DRF. Building a live ch
 - WebSockets (JSON)
 - ASGI server (Uvicorn)
 - CORS
+- Authentication
+  - SimpleJWT
 
 #### Frontend
 
